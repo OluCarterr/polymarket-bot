@@ -112,12 +112,10 @@ def run():
         send(message)
         save_sent(sent + [o['question'] for o in new])
     else:
-        send("🚫 No new trades today.")
+        pass
 
 
 if __name__ == "__main__":
-    import time
-
     while True:
         run()
-        time.sleep(60)
+        time.sleep(900)  # 900 seconds = 15 minutes
