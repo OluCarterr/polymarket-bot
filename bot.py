@@ -46,11 +46,7 @@ def extract_opportunities(markets):
     return results[:3]
 
 
-def rank_opportunities(opps):
-    df = pd.DataFrame(opps)
-    if df.empty:
-        return []
-    return df.sort_values(by="volume", ascending=False).to_dict("records")
+
 
 
 def format_message(opps):
