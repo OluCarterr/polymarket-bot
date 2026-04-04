@@ -83,8 +83,18 @@ async def send_async(msg):
     await bot.send_message(chat_id=CHAT_ID, text=msg)
 
 
-def send(msg):
-    asyncio.run(send_async(msg))
+import requests
+
+def send(text):
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": text
+    }
+
+    response = requests.post(url, json=payload)
+    print(response.text)
 
 
 def load_sent():
