@@ -109,11 +109,11 @@ def run():
     new = [o for o in ranked if o['question'] not in sent]
 
     if new:
-    message = format_message(new)
-    send(message)
-    save_sent(sent + [o['question'] for o in new])
-else:
-    send("🚫 No new trades today.")
+        message = format_message(new)
+        send(message)
+        save_sent(sent + [o['question'] for o in new])
+    else:
+        send("🚫 No new trades today.")
 
 
 if __name__ == "__main__":
