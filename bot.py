@@ -117,6 +117,8 @@ else:
 
 
 if __name__ == "__main__":
+    import time
+
     while True:
         run()
-        time.sleep(86400)
+        time.sleep(60)
