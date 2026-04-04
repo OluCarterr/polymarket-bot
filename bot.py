@@ -32,7 +32,7 @@ def extract_opportunities(markets):
         except:
             continue
 
-        if 0.78 <= price <= 0.85 and liquidity >= 50000:
+        if 0.70 <= price <= 0.90 and liquidity >= 20000:
             results.append({
                 "question": m.get("question"),
                 "price": price,
