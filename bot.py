@@ -22,39 +22,28 @@ def fetch_markets():
 
 
 def extract_opportunities(markets):
-    FILTER_TIERS = [(0.78, 0.85), (0.75, 0.88), (0.70, 0.90)]
+    results = []   # ✅ VERY IMPORTANT
 
-    for min_price, max_price in FILTER_TIERS:
-        temp = []
+    for m in markets:
+        try:
+            price = float(m.get("outcomes", [{}])[0].get("price", 0))
+            liquidity = float(m.get("liquidity", 0))
+            volume = float(m.get("volume24hr", 0))
+        except:
+            continue
 
-        for market in markets:
-            try:
-                liquidity = float(market.get("liquidity", 0))
-                volume = float(market.get("volume24hr", 0))
-                question = market.get("question", "")
-                outcomes = market.get("outcomes", [])
+        if 0.78 <= price <= 0.85 and liquidity >= 50000:
+            results.append({
+                "question": m.get("question"),
+                "price": price,
+                "volume": volume,
+                "liquidity": liquidity
+            })
 
-                if liquidity < 50000:
-                    continue
+    # ✅ ADD THIS ALSO (YOU ARE MISSING IT)
+    results = sorted(results, key=lambda x: x["volume"], reverse=True)
 
-                for o in outcomes:
-                    price = float(o.get("price", 0))
-
-                    if min_price <= price <= max_price:
-                        temp.append({
-                            "question": question,
-                            "outcome": o.get("name"),
-                            "price": price,
-                            "liquidity": liquidity,
-                            "volume": volume
-                        })
-            except:
-                continue
-
-        if temp:
-            return temp
-
-    return []
+    return results[:3]
 
 
 def rank_opportunities(opps):
