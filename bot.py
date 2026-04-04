@@ -6,12 +6,12 @@ import json
 import time
 from datetime import datetime
 from dotenv import load_dotenv
-from telegram import Bot
+import requests
 
 load_dotenv()
 
-TELEGRAM_TOKEN = os.getenv("8646751152:AAEbhd4LVGhBJjfDFMDTrCixnL1E_owKapY")
-CHAT_ID = os.getenv("818347325")
+TELEGRAM_TOKEN = "8646751152:AAEbhd4LVGhBJjfDFMDTrCixnL1E_owKapY"
+CHAT_ID = "818347325"
 
 GAMMA_API_URL = "https://gamma-api.polymarket.com/markets"
 
