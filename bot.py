@@ -29,8 +29,13 @@ def extract_opportunities(markets):
             price = float(m.get("outcomes", [{}])[0].get("price", 0))
             liquidity = float(m.get("liquidity", 0))
             volume = float(m.get("volume24hr", 0))
+            edge = 0
+
+if volume > 100000:
+    edge += 0.05
         except:
             continue
+        
 
         if 0.70 <= price <= 0.90 and liquidity >= 20000:
             results.append({
