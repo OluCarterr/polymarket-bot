@@ -96,14 +96,12 @@ def save_sent(data):
 
 
 def run():
-    send("✅ BOT IS ACTIVE")
-
     markets = fetch_markets()
     opps = extract_opportunities(markets)
 
     if not opps:
-    send("ℹ️ Bot checked — no strong trades right now.")
-    return
+        send("ℹ️ Checked market — no strong trades right now.")
+        return
 
     message = "🔥 TOP POLYMARKET TRADES\n\n"
 
