@@ -22,30 +22,29 @@ def fetch_markets():
 
 
 def extract_opportunities(markets):
-    results = []   # ✅ VERY IMPORTANT
+    results = []
 
     for m in markets:
-    try:
-        price = float(m.get("outcomes", [{}])[0].get("price", 0))
-        liquidity = float(m.get("liquidity", 0))
-        volume = float(m.get("volume24hr", 0))
-    except:
-        continue
+        try:
+            price = float(m.get("outcomes", [{}])[0].get("price", 0))
+            liquidity = float(m.get("liquidity", 0))
+            volume = float(m.get("volume24hr", 0))
+        except:
+            continue
 
-    edge = 0
+        edge = 0
 
-    if volume > 100000:
-        edge += 0.05
+        if volume > 100000:
+            edge += 0.05
 
-    if 0.70 <= price <= 0.90 and liquidity >= 20000 and edge >= 0.05:
-        results.append({
-            "question": m.get("question"),
-            "price": price,
-            "volume": volume,
-            "liquidity": liquidity
-        })
+        if 0.70 <= price <= 0.90 and liquidity >= 20000 and edge >= 0.05:
+            results.append({
+                "question": m.get("question"),
+                "price": price,
+                "volume": volume,
+                "liquidity": liquidity
+            })
 
-    # ✅ ADD THIS ALSO (YOU ARE MISSING IT)
     results = sorted(results, key=lambda x: x["volume"], reverse=True)
 
     return results[:3]
