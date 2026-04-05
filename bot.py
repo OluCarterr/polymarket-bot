@@ -96,6 +96,8 @@ def save_sent(data):
 
 
 def run():
+    send("✅ BOT IS ACTIVE")
+    
     markets = fetch_markets()
     opps = extract_opportunities(markets)
 
