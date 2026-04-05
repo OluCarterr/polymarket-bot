@@ -98,7 +98,7 @@ def save_sent(data):
 def run():
     markets = fetch_markets()
     opps = extract_opportunities(markets)
-    ranked = rank_opportunities(opps)
+    ranked = opps
 
     sent = load_sent()
     new = [o for o in ranked if o['question'] not in sent]
