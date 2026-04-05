@@ -99,19 +99,18 @@ def run():
     markets = fetch_markets()
     opps = extract_opportunities(markets)
 
+    if not opps:
+        return
+
+    message = "🔥 TOP POLYMARKET TRADES\n\n"
+
     for o in opps:
-        message = format_message(o)
-        send(message)
+        message += f"📊 {o['question']}\n"
+        message += f"💰 Price: {round(o['price'] * 100)}%\n"
+        message += f"📈 Volume: ${int(o['volume'])}\n"
+        message += "-------------------\n"
 
-    sent = load_sent()
-    new = [o for o in ranked if o['question'] not in sent]
-
-    if new:
-        message = format_message(new)
-        send(message)
-        save_sent(sent + [o['question'] for o in new])
-    else:
-        pass
+    send(message)
 
 
 if __name__ == "__main__":
