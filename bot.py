@@ -34,7 +34,7 @@ def extract_opportunities(markets):
 
         edge = 0
 
-        if volume > 100000:
+        if volume > 200000:
             edge += 0.05
 
         if 0.70 <= price <= 0.90 and liquidity >= 20000 and edge >= 0.05:
