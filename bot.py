@@ -39,11 +39,12 @@ def extract_opportunities(markets):
 
         if 0.70 <= price <= 0.90 and liquidity >= 20000 and edge >= 0.05:
             results.append({
-                "question": m.get("question"),
-                "price": price,
-                "volume": volume,
-                "liquidity": liquidity
-            })
+    "question": m.get("question"),
+    "price": price,
+    "volume": volume,
+    "liquidity": liquidity,
+    "edge": edge
+})
 
     results = sorted(results, key=lambda x: x["volume"], reverse=True)
 
@@ -63,7 +64,7 @@ def format_message(opps):
         msg += f"{i}. {o['question']}\n"
         msg += f"→ {o['outcome']} @ {o['price']:.2f}\n"
         msg += f"💧 {o['liquidity']} | 📈 {o['volume']}\n\n"
-
+message += f"⚡ Edge: {o['edge']*100:.0f}%\n\n"
     return msg
 
 
