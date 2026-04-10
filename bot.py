@@ -25,6 +25,21 @@ def extract_opportunities(markets):
     results = []
 
     for m in markets:
+
+        question = m.get("question", "").lower()
+
+        allowed_keywords = [
+    "weather", "rain", "temperature", "storm",
+    "climate", "warming",
+    "war", "election", "president", "china", "russia", "usa",
+    "bitcoin", "btc", "ethereum", "eth", "crypto",
+    "stock", "nasdaq", "s&p", "dow",
+    "match", "team", "league", "goal", "football", "nba", "soccer"
+]
+
+if not any(keyword in question for keyword in allowed_keywords):
+    continue
+
         try:
             price = float(m.get("outcomes", [{}])[0].get("price", 0))
             liquidity = float(m.get("liquidity", 0))
