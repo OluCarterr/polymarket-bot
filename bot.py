@@ -140,11 +140,10 @@ def run():
     markets = fetch_markets()
     opps = extract_opportunities(markets)
 
-    if not opps:
-        send("ℹ️ Checked market — no strong trades right now.")
-        return
+    opps = [o for o in opps if o["confidence"] >= 7]
 
-    message = "🔥 TOP POLYMARKET TRADES\n\n"
+    if not opps:
+         message = "🔥 TOP POLYMARKET TRADES\n\n"
 
     for o in opps:
         message += f"📊 {o['question']}\n"
