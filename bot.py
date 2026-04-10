@@ -25,7 +25,6 @@ def extract_opportunities(markets):
     results = []
 
     for m in markets:
-
         question = m.get("question", "").lower()
 
         allowed_keywords = [
