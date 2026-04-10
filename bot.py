@@ -53,12 +53,36 @@ def extract_opportunities(markets):
             edge += 0.05
 
         if 0.70 <= price <= 0.90 and liquidity >= 20000 and edge >= 0.05:
+            confidence = 0
+
+# Volume strength
+if volume > 150000:
+    confidence += 4
+elif volume > 80000:
+    confidence += 3
+elif volume > 40000:
+    confidence += 2
+
+# Liquidity strength
+if liquidity > 100000:
+    confidence += 3
+elif liquidity > 50000:
+    confidence += 2
+else:
+    confidence += 1
+
+# Price strength (sweet spot)
+if 0.75 <= price <= 0.85:
+    confidence += 3
+elif 0.70 <= price <= 0.90:
+    confidence += 2
             results.append({
                 "question": m.get("question"),
                 "price": price,
                 "volume": volume,
                 "liquidity": liquidity,
-                "edge": edge
+                "edge": edge,
+                "confidence": confidence
             })
 
     results = sorted(results, key=lambda x: x["volume"], reverse=True)
@@ -92,7 +116,8 @@ def format_message(opps):
         msg += f"📊 {o['question']}\n"
         msg += f"💰 Price: {o['price']*100:.0f}%\n"
         msg += f"📈 Volume: ${o['volume']:.0f}\n"
-        msg += f"⚡ Edge: {o['edge']*100:.0f}%\n\n"
+        msg += f"⚡ Edge: {o['edge']*100:.0f}%\n"
+        msg += f"🧠 Confidence: {o['confidence']}/10\n"
 
     return msg
 
