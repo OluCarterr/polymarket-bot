@@ -67,16 +67,14 @@ def extract_opportunities(markets):
 
 
 def format_message(opps):
-    if not opps:
-        return "No trades today."
+    msg = "🔥 TOP POLYMARKET TRADES\n\n"
 
-    msg = f"📊 Safety Scan\n{datetime.utcnow()}\n\n"
+    for o in opps:
+        msg += f"📊 {o['question']}\n"
+        msg += f"💰 Price: {o['price']*100:.0f}%\n"
+        msg += f"📈 Volume: ${o['volume']:.0f}\n"
+        msg += f"⚡ Edge: {o['edge']*100:.0f}%\n\n"
 
-    for i, o in enumerate(opps[:5], 1):
-        msg += f"{i}. {o['question']}\n"
-        msg += f"→ {o['outcome']} @ {o['price']:.2f}\n"
-        msg += f"💧 {o['liquidity']} | 📈 {o['volume']}\n\n"
-message += f"⚡ Edge: {o['edge']*100:.0f}%\n\n"
     return msg
 
 
