@@ -76,6 +76,10 @@ if 0.75 <= price <= 0.85:
     confidence += 3
 elif 0.70 <= price <= 0.90:
     confidence += 2
+
+
+
+    
             results.append({
                 "question": m.get("question"),
                 "price": price,
