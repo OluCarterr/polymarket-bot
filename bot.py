@@ -25,47 +25,45 @@ def extract_opportunities(markets):
     results = []
 
     for m in markets:
-        question = m.get("question", "").lower()
+        question = str(m.get("question", "")).lower()
 
         allowed_keywords = [
-    "weather", "rain", "temperature", "storm",
-    "climate", "warming",
-    "war", "election", "president", "china", "russia", "usa",
-    "bitcoin", "btc", "ethereum", "eth", "crypto",
-    "stock", "nasdaq", "s&p", "dow",
-    "match", "team", "league", "goal", "football", "nba", "soccer"
-]
+            "weather", "rain", "temperature", "storm",
+            "climate", "warming",
+            "war", "election", "president", "china", "russia", "usa",
+            "bitcoin", "btc", "ethereum", "eth", "crypto",
+            "stock", "nasdaq", "s&p", "dow",
+            "match", "team", "league", "goal", "football", "nba", "soccer"
+        ]
 
-if not any(keyword in question for keyword in allowed_keywords):
-    continue
+        if not any(k in question for k in allowed_keywords):
+            continue
 
         try:
-            price = float(m.get("outcomes", [{}])[0].get("price", 0))
+            outcomes = m.get("outcomes", [])
+            price = float(outcomes[0].get("price", 0)) if outcomes else 0
             liquidity = float(m.get("liquidity", 0))
             volume = float(m.get("volume24hr", 0))
-        except:
+        except Exception:
             continue
 
         edge = 0
 
-        if volume > 200000:
+        if volume > 100000:
             edge += 0.05
 
         if 0.70 <= price <= 0.90 and liquidity >= 20000 and edge >= 0.05:
             results.append({
-    "question": m.get("question"),
-    "price": price,
-    "volume": volume,
-    "liquidity": liquidity,
-    "edge": edge
-})
+                "question": m.get("question"),
+                "price": price,
+                "volume": volume,
+                "liquidity": liquidity,
+                "edge": edge
+            })
 
     results = sorted(results, key=lambda x: x["volume"], reverse=True)
 
     return results[:3]
-
-
-
 
 
 def format_message(opps):
