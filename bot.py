@@ -25,61 +25,41 @@ def extract_opportunities(markets):
     results = []
 
     for m in markets:
-        question = str(m.get("question", "")).lower()
-
-        allowed_keywords = [
-            "weather", "rain", "temperature", "storm",
-            "climate", "warming",
-            "war", "election", "president", "china", "russia", "usa",
-            "bitcoin", "btc", "ethereum", "eth", "crypto",
-            "stock", "nasdaq", "s&p", "dow",
-            "match", "team", "league", "goal", "football", "nba", "soccer"
-        ]
-
-        if not any(k in question for k in allowed_keywords):
-            continue
-
         try:
-            outcomes = m.get("outcomes", [])
-            price = float(outcomes[0].get("price", 0)) if outcomes else 0
+            price = float(m.get("outcomes", [{}])[0].get("price", 0))
             liquidity = float(m.get("liquidity", 0))
             volume = float(m.get("volume24hr", 0))
-        except Exception:
+        except:
             continue
 
-        edge = 0
+        if 0.70 <= price <= 0.90 and liquidity >= 20000:
 
-        if volume > 100000:
-            edge += 0.05
+            edge = abs(price - 0.5)
 
-        if 0.70 <= price <= 0.90 and liquidity >= 20000 and edge >= 0.05:
             confidence = 0
 
-# Volume strength
-if volume > 150000:
-    confidence += 4
-elif volume > 80000:
-    confidence += 3
-elif volume > 40000:
-    confidence += 2
+            # Volume score
+            if volume > 150000:
+                confidence += 4
+            elif volume > 80000:
+                confidence += 3
+            elif volume > 40000:
+                confidence += 2
 
-# Liquidity strength
-if liquidity > 100000:
-    confidence += 3
-elif liquidity > 50000:
-    confidence += 2
-else:
-    confidence += 1
+            # Liquidity score
+            if liquidity > 100000:
+                confidence += 3
+            elif liquidity > 50000:
+                confidence += 2
+            else:
+                confidence += 1
 
-# Price strength (sweet spot)
-if 0.75 <= price <= 0.85:
-    confidence += 3
-elif 0.70 <= price <= 0.90:
-    confidence += 2
+            # Price score
+            if 0.75 <= price <= 0.85:
+                confidence += 3
+            elif 0.70 <= price <= 0.90:
+                confidence += 2
 
-
-
-    
             results.append({
                 "question": m.get("question"),
                 "price": price,
@@ -89,9 +69,7 @@ elif 0.70 <= price <= 0.90:
                 "confidence": confidence
             })
 
-    results = sorted(results, key=lambda x: x["volume"], reverse=True)
-
-    return results[:3]
+    return results
 
 
 def format_message(opps):
