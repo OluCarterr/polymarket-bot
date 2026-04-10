@@ -70,6 +70,25 @@ def format_message(opps):
     msg = "🔥 TOP POLYMARKET TRADES\n\n"
 
     for o in opps:
+        question = o["question"].lower()
+
+        # Detect category
+        if any(x in question for x in ["btc", "bitcoin", "eth", "crypto"]):
+            label = "₿ CRYPTO"
+        elif any(x in question for x in ["stock", "nasdaq", "dow", "s&p"]):
+            label = "📈 STOCKS"
+        elif any(x in question for x in ["match", "team", "league", "goal", "football", "nba"]):
+            label = "⚽ SPORTS"
+        elif any(x in question for x in ["weather", "rain", "storm", "temperature"]):
+            label = "🌦 WEATHER"
+        elif any(x in question for x in ["climate", "warming"]):
+            label = "🌍 CLIMATE"
+        elif any(x in question for x in ["war", "election", "president", "china", "russia", "usa"]):
+            label = "🌐 GEO"
+        else:
+            label = "📊 MARKET"
+
+        msg += f"{label} TRADE\n"
         msg += f"📊 {o['question']}\n"
         msg += f"💰 Price: {o['price']*100:.0f}%\n"
         msg += f"📈 Volume: ${o['volume']:.0f}\n"
